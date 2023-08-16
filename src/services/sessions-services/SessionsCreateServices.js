@@ -1,7 +1,5 @@
 const { compare } = require("bcryptjs");
 const AppError = require("../../utils/AppError");
-const authConfig = require("../../configs/auth");
-const { sign } = require("jsonwebtoken");
 
 class SessionsCreateServices {
   constructor(sessionsRepository) {
@@ -20,16 +18,6 @@ class SessionsCreateServices {
     }
 
     return user;
-  }
-
-  async createToken({ user }) {
-    const { secret, expiresIn } = authConfig.jwt;
-    const token = sign({}, secret, {
-      subject: String(user.token),
-      expiresIn
-    });
-
-    return token;
   }
 }
 
