@@ -6,5 +6,6 @@ const usersRoutes = Router();
 const usersController = new UsersController();
 
 usersRoutes.post("/", usersController.create);
+usersRoutes.post("/delete", usersController.delete);
 
 module.exports = usersRoutes;

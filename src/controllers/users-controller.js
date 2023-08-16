@@ -14,7 +14,14 @@ class UsersController {
   }
 
   async delete(request, response) {
-    
+    const { email, password } = request.body; 
+
+    const userRepository = new UserRepository();
+    const usersCreateServices = new UsersCreateServices(userRepository);
+
+    await usersCreateServices.verifyUser({ email, password });
+
+    return response.json();
   }
 }
 

@@ -12,6 +12,10 @@ class UserRepository {
   async insertUser({ name, email, password }) {
     await knex("users").insert({ name, email, password });
   }
+
+  async deleteUser({ email }) {
+    await knex("users").where({ email }).delete();
+  }
 }
 
 module.exports = UserRepository;
