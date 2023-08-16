@@ -1,6 +1,5 @@
 const path = require("path");
 
-//configurando o knex
 module.exports = {
   development: {
     client: 'sqlite3',

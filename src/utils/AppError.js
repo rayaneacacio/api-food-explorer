@@ -1,4 +1,3 @@
-//classe para lidar com erros
 class AppError{
   message;
   statusCode;
