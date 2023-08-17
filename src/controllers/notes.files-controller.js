@@ -1,5 +1,4 @@
-const knex = require("../database/knex");
-const DiskStorage = require("../providers/DiskStorage");
+const NotesRepository = require("../repositories/notes-repository");
 
 class FilesController {
   async patchImage(request, response) {
@@ -7,13 +6,10 @@ class FilesController {
     const { title } = request.query;
     const imgFilename = request.file.filename;
 
-    const diskStorage = new DiskStorage();
-    const filename = await diskStorage.saveFile(imgFilename);
+    const notesRepository = new NotesRepository;
 
-    const note = await knex("notes").where({ user_id, title }).first();
-
-    note.image = filename;
-    await knex("notes").update(note).where({ user_id, title });
+    const note = await notesRepository.findByTitle({ user_id, title });
+    await notesRepository.updateImg({ user_id, title, note, imgFilename });
 
     response.json(note);
   }
