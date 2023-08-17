@@ -1,11 +1,12 @@
-const knex = require("../database/knex");
+const NotesRepository = require("../repositories/notes-repository");
 
 class NotesController {
   async create(request, response) {
     const user_id = request.user.id;
     const { title, category, price, description } = request.body;
     
-    await knex("notes").insert({ user_id, title, category, price, description });
+    const notesRepository = new NotesRepository();
+    await notesRepository.insert({ user_id, title, category, price, description });
 
     response.json();
   }
@@ -13,7 +14,8 @@ class NotesController {
   async index(request, response) {
     const user_id = request.user.id;
 
-    const notes = await knex("notes").where({ user_id });
+    const notesRepository = new NotesRepository();
+    const notes = await notesRepository.getAllNotes({ user_id });
 
     response.json(notes);
   }
@@ -22,7 +24,8 @@ class NotesController {
     const user_id = request.user.id;
     const { title } = request.body;
 
-    const note = await knex("notes").where({ user_id }).whereLike("title", `%${ title }%`);
+    const notesRepository = new NotesRepository();
+    const note = await notesRepository.findByTitle({ user_id, title });
 
     response.json(note);
   }
@@ -31,14 +34,15 @@ class NotesController {
     const user_id = request.user.id;
     const { id, title, category, price, description } = request.body;
 
-    const note = await knex("notes").where({ user_id, id });
+    const notesRepository = new NotesRepository();
+    const note = await notesRepository.findById({ user_id, id });
 
     const newTitle = title ?? note.id;
     const newCategory = category ?? note.category;
     const newPrice = price ?? note.price;
     const newDescription = description ?? note.description;
 
-    await knex("notes").update({ title: newTitle, category: newCategory, price: newPrice, description: newDescription }).where({ user_id, id });
+    await notesRepository.update({ note, newTitle, newCategory, newPrice, newDescription });
 
     response.json();
   }
@@ -47,7 +51,8 @@ class NotesController {
     const user_id = request.user.id;
     const { id } = request.body;
 
-    await knex("notes").where({ user_id, id }).delete();
+    const notesRepository = new NotesRepository();
+    await notesRepository.delete({ user_id, id });
 
     return response.json();
   }
