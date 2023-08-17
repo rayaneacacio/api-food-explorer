@@ -9,7 +9,7 @@ function ensureAuthenticated(request, response, next) {
     throw new AppError("JWT Token não informado");
   }
 
-  const [, token] = authHeader.split(" ");
+  const [, token ] = authHeader.split(" ");
 
   try {
     const { sub: user_id } = verify(token, authConfig.jwt.secret);
@@ -19,8 +19,9 @@ function ensureAuthenticated(request, response, next) {
     }
 
     return next();
-  } catch {
-    throw new AppError("JWT Token não informado");
+  } catch(error) {
+    console.error(error);
+    throw new AppError("JWT Token inválido");
   }
 }
 
