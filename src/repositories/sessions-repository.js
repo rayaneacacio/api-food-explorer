@@ -11,7 +11,7 @@ class SessionsRepository {
   async createToken({ user }) {
     const { secret, expiresIn } = authConfig.jwt;
     const token = sign({}, secret, {
-      subject: String(user.token),
+      subject: String(user.id),
       expiresIn
     });
 
