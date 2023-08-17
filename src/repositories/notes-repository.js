@@ -16,8 +16,8 @@ class NotesRepository {
     return note;
   }
 
-  async findById({ user_id, id }) {
-    const note = await knex("notes").where({ user_id, id }).first();
+  async findById({ id }) {
+    const note = await knex("notes").where({ id }).first();
     return note;
   }
 
@@ -33,7 +33,7 @@ class NotesRepository {
     await knex("notes").update(note).where({ user_id, title });
   }
 
-  async delete({ user_id, id }) {
+  async delete({ id }) {
     await knex("notes").where({ user_id, id }).delete();
   }
 }

@@ -31,11 +31,10 @@ class NotesController {
   }
 
   async put(request, response) {
-    const user_id = request.user.id;
     const { id, title, category, price, description } = request.body;
 
     const notesRepository = new NotesRepository();
-    const note = await notesRepository.findById({ user_id, id });
+    const note = await notesRepository.findById({ id });
 
     const newTitle = title ?? note.id;
     const newCategory = category ?? note.category;
@@ -48,11 +47,10 @@ class NotesController {
   }
 
   async delete(request, response) {
-    const user_id = request.user.id;
     const { id } = request.body;
 
     const notesRepository = new NotesRepository();
-    await notesRepository.delete({ user_id, id });
+    await notesRepository.delete({ id });
 
     return response.json();
   }
