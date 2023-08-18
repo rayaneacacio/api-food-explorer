@@ -13,23 +13,32 @@ class UsersCreateServices {
     }
 
     const hashPassword = await hash(password, 8);
-    await this.userRepository.insertUser({ name, email, password: hashPassword });
+    await this.newUser({ name, email, password: hashPassword });
   }
 
-  async verifyUser({ email, password }) {
-    const user = await this.userRepository.findByEmail({ email });
+  async newUser({ name, email, password }) {
+    const userCreated = await this.userRepository.insertUser({ name, email, password });
+    return userCreated;
+  }
 
+  async verifyEmail({ email }) {
+    const user = await this.userRepository.findByEmail({ email });
     if(!user) {
       throw new AppError("email e/ou senha incorreta");
     }
 
+    return user;    
+  }
+
+  async verifyPassword({ user, password }) {
     const samePassword = await compare(password, user.password);
     if(!samePassword) {
       throw new AppError("email e/ou senha incorreta");
     }
 
-    await this.userRepository.deleteUser({ email });
+    await this.userRepository.deleteUser({ email: user.email });
   }
+
 }
 
 module.exports = UsersCreateServices;

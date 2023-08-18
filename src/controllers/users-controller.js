@@ -19,7 +19,8 @@ class UsersController {
     const userRepository = new UserRepository();
     const usersCreateServices = new UsersCreateServices(userRepository);
 
-    await usersCreateServices.verifyUser({ email, password });
+    const user = await usersCreateServices.verifyEmail({ email });
+    await usersCreateServices.verifyPassword({ user, password });
 
     return response.json();
   }
