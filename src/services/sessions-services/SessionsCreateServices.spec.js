@@ -1,4 +1,4 @@
-const SessionsRepositoryInMemory = require("../../repositories/sessions-repositoryInMemory");
+const SessionsRepositoryInMemory = require("../../repositories/repositoryInMemory/sessions-repositoryInMemory");
 const SessionsCreateServices = require("./SessionsCreateServices");
 const AppError = require("../../utils/AppError");
 
