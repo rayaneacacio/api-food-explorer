@@ -9,10 +9,11 @@ class SessionsController {
     const sessionsCreateServices = new SessionsCreateServices(sessionsRepository);
 
     const user = await sessionsCreateServices.validateEmail({ email });
-    await sessionsCreateServices.validatePassword({ user, password }); 
-    await sessionsCreateServices.Authenticate({ user });
+    await sessionsCreateServices.validatePassword({ user, password });
+    
+    const token = await sessionsCreateServices.Authenticate({ user });
 
-    response.json({ user });
+    response.json({ user, token });
   }
 }
 
