@@ -13,9 +13,20 @@ class TagsRepository {
     await knex("tags").insert(tagsInsert);
   }
 
-  async get({ note_id }) {
+  async getAllTags({ note_id }) {
     const tags = await knex("tags").where({ note_id });
     return tags;
+  }
+
+  async findByTitle({ title }) {
+    const tags = await knex("tags").whereLike("title", `%${ title }%`);
+
+    const notes = await Promise.all(tags.map(async(tag) => {
+      const note = await knex("notes").where({ id: tag.note_id });
+      return note;
+    }));
+
+    return { notes, tags };
   }
 
   async delete({ id }) {

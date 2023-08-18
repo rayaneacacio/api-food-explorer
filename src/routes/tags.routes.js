@@ -10,6 +10,7 @@ tagsRoutes.use(ensureAuthenticated);
 
 tagsRoutes.post("/", tagsController.create);
 tagsRoutes.post("/index", tagsController.index);
+tagsRoutes.post("/show", tagsController.show);
 tagsRoutes.post("/delete", tagsController.delete);
 
 module.exports = tagsRoutes;
