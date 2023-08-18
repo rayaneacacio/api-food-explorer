@@ -23,12 +23,11 @@ class SessionsCreateServices {
   }
 
   async Authenticate({ user }) {
-    let token = null
-    try {
-      token = await this.sessionsRepository.createToken({ user });
-    } catch {
+    if(!user.id) {
       throw new AppError("Usuário nao autenticado");
     }
+
+    const token = await this.sessionsRepository.createToken({ user });
 
     return token;
   }
