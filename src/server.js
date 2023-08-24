@@ -10,11 +10,7 @@ const uploadConfig = require("./configs/upload");
 
 const app = express();
 
-const corsOrigins = {
-  origin: "*"
-};
-
-app.use(cors(corsOrigins));
+app.use(cors());
 app.use(express.json());
 
 app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
