@@ -1,5 +1,5 @@
-require("express-async-errors");
 require("dotenv/config");
+require("express-async-errors");
 
 const express = require("express")
 const cors = require("cors");
@@ -9,8 +9,13 @@ const routes = require("./routes/index");
 const uploadConfig = require("./configs/upload");
 
 const app = express();
+
+const corsOrigins = {
+  origin: "*"
+};
+
+app.use(cors(corsOrigins));
 app.use(express.json());
-app.use(cors());
 
 app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
 
