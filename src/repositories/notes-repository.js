@@ -3,7 +3,8 @@ const DiskStorage = require("../providers/DiskStorage");
 
 class NotesRepository {
   async insert({ user_id, title, category, price, description }) {
-    await knex("notes").insert({ user_id, title, category, price, description });
+    const note = await knex("notes").insert({ user_id, title, category, price, description, isAdmin }).returning("*");
+    return note;
   }
 
   async getAllNotes({ user_id }) {
@@ -12,7 +13,7 @@ class NotesRepository {
   }
 
   async findByTitle({ user_id, title }) {
-    const note = await knex("notes").where({ user_id }).whereLike("title", `%${ title }%`).first();
+    const note = await knex("notes").where({ user_id }).whereLike("title", `%${ title }%`);
     return note;
   }
 
@@ -25,15 +26,15 @@ class NotesRepository {
     await knex("notes").update({ title: newTitle, category: newCategory, price: newPrice, description: newDescription }).where(note);
   }
 
-  async updateImg({ user_id, title, note, imgFilename }) {
+  async updateImg({ note, imgFilename }) {
     const diskStorage = new DiskStorage();
     const filename = await diskStorage.saveFile(imgFilename);
 
     note.image = filename;
-    await knex("notes").update(note).where({ user_id, title });
+    await knex("notes").update(note).where({ id: note.id });
   }
 
-  async delete({ id }) {
+  async delete({ user_id, id }) {
     await knex("notes").where({ user_id, id }).delete();
   }
 }

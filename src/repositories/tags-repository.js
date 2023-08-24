@@ -21,16 +21,27 @@ class TagsRepository {
   async findByTitle({ title }) {
     const tags = await knex("tags").whereLike("title", `%${ title }%`);
 
-    const notes = await Promise.all(tags.map(async(tag) => {
+    const uniqueNotes = [];
+
+    await Promise.all(tags.map(async(tag) => {
       const note = await knex("notes").where({ id: tag.note_id });
-      return note;
+      if(!uniqueNotes[tag.note_id]) {
+        uniqueNotes[tag.note_id] = note;
+      }
+
     }));
 
-    return { notes, tags };
+    const response = Object.values(uniqueNotes);
+
+    const notes = response.map(note => {
+      return note[0];
+    });
+
+    return notes;
   }
 
-  async delete({ id }) {
-    await knex("tags").where({ id }).delete();
+  async delete({ note_id }) {
+    await knex("tags").where({ note_id }).delete();
   }
 }
 

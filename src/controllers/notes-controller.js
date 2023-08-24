@@ -6,9 +6,9 @@ class NotesController {
     const { title, category, price, description } = request.body;
     
     const notesRepository = new NotesRepository();
-    await notesRepository.insert({ user_id, title, category, price, description });
+    const note = await notesRepository.insert({ user_id, title, category, price, description });
 
-    response.json();
+    response.json(note);
   }
 
   async index(request, response) {
@@ -36,7 +36,7 @@ class NotesController {
     const notesRepository = new NotesRepository();
     const note = await notesRepository.findById({ id });
 
-    const newTitle = title ?? note.id;
+    const newTitle = title ?? note.title;
     const newCategory = category ?? note.category;
     const newPrice = price ?? note.price;
     const newDescription = description ?? note.description;
@@ -47,10 +47,11 @@ class NotesController {
   }
 
   async delete(request, response) {
+    const user_id = request.user.id;
     const { id } = request.body;
 
     const notesRepository = new NotesRepository();
-    await notesRepository.delete({ id });
+    await notesRepository.delete({ user_id, id });
 
     return response.json();
   }

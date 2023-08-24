@@ -10,7 +10,8 @@ class UserRepository {
   }
 
   async insertUser({ name, email, password }) {
-    await knex("users").insert({ name, email, password });
+    const isAdmin = false;
+    await knex("users").insert({ name, email, password, isAdmin });
   }
 
   async deleteUser({ email }) {

@@ -21,19 +21,19 @@ class TagsController {
   }
 
   async show(request, response) {
-    const { note_id, title } = request.body;
+    const { title } = request.body;
 
     const tagsRepository = new TagsRepository();
-    const { notes, tags } = await tagsRepository.findByTitle({ note_id, title });
+    const notes = await tagsRepository.findByTitle({ title });
 
-    response.json({ notes, tags });
+    return response.json(notes);
   }
 
   async delete(request, response) {
-    const { id } = request.body;
+    const { note_id } = request.body;
 
     const tagsRepository = new TagsRepository();
-    await tagsRepository.delete({ id });
+    await tagsRepository.delete({ note_id });
 
     response.json();
   }
