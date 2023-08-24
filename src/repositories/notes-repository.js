@@ -3,7 +3,7 @@ const DiskStorage = require("../providers/DiskStorage");
 
 class NotesRepository {
   async insert({ user_id, title, category, price, description }) {
-    const note = await knex("notes").insert({ user_id, title, category, price, description, isAdmin }).returning("*");
+    const note = await knex("notes").insert({ user_id, title, category, price, description }).returning("*");
     return note;
   }
 
