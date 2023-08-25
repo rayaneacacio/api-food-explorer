@@ -7,13 +7,13 @@ class NotesRepository {
     return note;
   }
 
-  async getAllNotes({ user_id }) {
-    const notes = await knex("notes").where({ user_id });
+  async getAllNotes() {
+    const notes = await knex("notes");
     return notes;
   }
 
-  async findByTitle({ user_id, title }) {
-    const note = await knex("notes").where({ user_id }).whereLike("title", `%${ title }%`);
+  async findByTitle({ title }) {
+    const note = await knex("notes").whereLike("title", `%${ title }%`);
     return note;
   }
 

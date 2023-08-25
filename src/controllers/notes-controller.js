@@ -12,20 +12,17 @@ class NotesController {
   }
 
   async index(request, response) {
-    const user_id = request.user.id;
-
     const notesRepository = new NotesRepository();
-    const notes = await notesRepository.getAllNotes({ user_id });
+    const notes = await notesRepository.getAllNotes();
 
     response.json(notes);
   }
 
   async show(request, response) {
-    const user_id = request.user.id;
     const { title } = request.body;
 
     const notesRepository = new NotesRepository();
-    const note = await notesRepository.findByTitle({ user_id, title });
+    const note = await notesRepository.findByTitle({ title });
 
     response.json(note);
   }
