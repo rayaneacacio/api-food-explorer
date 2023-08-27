@@ -5,7 +5,11 @@ API Node.js que fornece um cardápio para um restaurante fictício. A API oferec
 ## Deploy
 
 https://api-food-explorer-xy7h.onrender.com/
-
+<p>
+  email de administrador: loki@gmail.com
+  <br>
+  senha: 1234
+</p>
 
 ## Documentação da API
 
